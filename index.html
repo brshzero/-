@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>두렁면적 계산기</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f9f9f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .container {
+      width: 100%;
+      max-width: 420px;
+      padding: 15px;
+    }
+    .calculator {
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+      position: relative;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin-top: 12px;
+      font-weight: bold;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+    .radio-group {
+      margin-top: 8px;
+    }
+    .radio-group label {
+      font-weight: normal;
+      margin-right: 15px;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 20px;
+      border: none;
+      border-radius: 8px;
+      background: #4a90e2;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #357ab8;
+    }
+    .result {
+      margin-top: 20px;
+      font-weight: bold;
+      text-align: center;
+      font-size: 18px;
+    }
+    /* 초기화 버튼 */
+    .reset-btn {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: #e74c3c;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 6px 12px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .reset-btn:hover {
+      background: #c0392b;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="calculator">
+      <button class="reset-btn" onclick="resetForm()">초기화</button>
+      <h2>두렁면적 계산기</h2>
+
+      <label>경지면적 (㎡):</label>
+      <input type="number" id="area" placeholder="예: 1000">
+
+      <label>필지 경계 두렁 포함 여부:</label>
+      <div class="radio-group">
+        <label><input type="radio" name="boundary" value="Y" checked> Y (-)</label>
+        <label><input type="radio" name="boundary" value="N"> N (+)</label>
+      </div>
+
+      <label>두렁 비율 (%):</label>
+      <input type="number" id="ratio" placeholder="예: 3">
+
+      <button onclick="calculate()">계산</button>
+
+      <div class="result" id="result">결과가 여기에 표시됩니다</div>
+    </div>
+  </div>
+
+  <script>
+    function calculate() {
+      const area = parseFloat(document.getElementById('area').value);
+      const ratio = parseFloat(document.getElementById('ratio').value);
+      const boundary = document.querySelector('input[name="boundary"]:checked').value;
+
+      if (isNaN(area) || isNaN(ratio)) {
+        document.getElementById('result').innerText = "숫자를 입력해주세요!";
+        return;
+      }
+
+      let dulleong = 0;
+
+      if (boundary === "Y") {
+        dulleong = area * (ratio / 100);
+      } else {
+        dulleong = (area / (1 - ratio/100)) - area;
+      }
+
+      document.getElementById('result').innerText =
+        `두렁면적: ${Math.round(dulleong)} ㎡`;
+    }
+
+    function resetForm() {
+      document.getElementById('area').value = "";
+      document.getElementById('ratio').value = "";
+      document.querySelector('input[name="boundary"][value="Y"]').checked = true;
+      document.getElementById('result').innerText = "결과가 여기에 표시됩니다";
+    }
+  </script>
+</body>
+</html>
