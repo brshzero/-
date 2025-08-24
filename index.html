@@ -29,7 +29,7 @@
     }
     h2 {
       text-align: center;
-      margin-bottom: 20px;
+      margin-bottom: 40px; /* 버튼과 겹치지 않도록 여유 추가 */
     }
     label {
       display: block;
@@ -74,7 +74,7 @@
     /* 초기화 버튼 */
     .reset-btn {
       position: absolute;
-      top: 10px;
+      top: -10px;  /* 제목과 겹치지 않도록 위로 이동 */
       left: 10px;
       background: #e74c3c;
       color: white;
@@ -83,6 +83,7 @@
       padding: 6px 12px;
       cursor: pointer;
       font-size: 14px;
+      z-index: 10; /* 겹침 방지 */
     }
     .reset-btn:hover {
       background: #c0392b;
